@@ -1,10 +1,8 @@
 <?php
 
-require_once(__DIR__ . '/../core/Controller.php');
-
 class ShuffleController extends Controller
 {
-    public function index()
+    public function index(): string
     {
         $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
         if ($mysqli->connect_error) {
@@ -12,10 +10,12 @@ class ShuffleController extends Controller
         }
         $groups = [];
 
-        include(__DIR__ . '/../views/index.php');
+        return $this->render([
+            'groups' => $groups
+        ]);
     }
 
-    public function create()
+    public function create(): string
     {
         $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
         if ($mysqli->connect_error) {
@@ -35,6 +35,9 @@ class ShuffleController extends Controller
                 array_push($extra, $groups);
             }
 
-        include(__DIR__ . '/../views/index.php');
+        return $this->render([
+            'groups' => $groups,
+            'employees' => $employees,
+        ], 'index');
     }
 }

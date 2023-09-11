@@ -1,13 +1,10 @@
 <?php
 
-require_once(__DIR__ . '/../core/Controller.php');
-require_once(__DIR__ . '/../core/Validator.php');
-
 class EmployeeController extends Controller
 {
     use Validator;
 
-    public function index()
+    public function index(): string
     {
         $errors = [];
         $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
@@ -17,16 +14,23 @@ class EmployeeController extends Controller
         $result = $mysqli->query('SELECT name FROM employees');
         $employees = $result->fetch_all(MYSQLI_ASSOC);
 
-        include(__DIR__ . '/../views/employee.php');
+        return $this->render([
+            'title' => '社員登録',
+            'errors' => $errors,
+            'employees' => $employees,
+        ], 'index');
     }
 
-    public function create()
+    public function create(): string
     {
         $errors = [];
         $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
         if ($mysqli->connect_error) {
             throw new RuntimeException('データベース接続エラー: ' . $mysqli->connect_error);
         }
+
+        $result = $mysqli->query('SELECT name FROM employees');
+        $employees = $result->fetch_all(MYSQLI_ASSOC);
 
         $errors = $this->validateName($_POST['name']);
         if (!count($errors)) {
@@ -36,9 +40,12 @@ class EmployeeController extends Controller
             }
             $stmt->execute();
             $stmt->close();
-            header('Location: /employee');
         }
 
-        include(__DIR__ . '/../views/employee.php');
+        return $this->render([
+            'title' => '社員登録',
+            'errors' => $errors,
+            'employees' => $employees,
+        ], 'index');
     }
 }
