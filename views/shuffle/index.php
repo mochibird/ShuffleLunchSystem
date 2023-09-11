@@ -1,5 +1,5 @@
-<h2 class="employee_register_link">
-    <a href="/employee">社員登録ページへ</a>
+<h2 class="second-primary">
+    <a href="/employee">社員登録ページへ▶︎</a>
 </h2>
 <form action="/shuffle" method="post">
     <button class="btn" type="submit">シャッフルする</button>
