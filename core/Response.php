@@ -2,17 +2,24 @@
 
 class Response
 {
-    public function isPost(): bool
+    protected $content;
+    protected $statusCode;
+    protected $statusText;
+
+    public function send(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            return true;
-        }
-        return false;
+        header('HTTP1.1/' . $this->statusCode . ' ' . $this->statusCode);
+        echo $this->content;
     }
 
-    public function getPathInfo(): string
+    public function setContent(string $content): void
     {
-        return $_SERVER['REQUEST_URI'];
+        $this->content = $content;
     }
 
+    public function setStatusCode(string $statusCode, string $statusText): void
+    {
+        $this->statusCode = $statusCode;
+        $this->statusText = $statusText;
+    }
 }

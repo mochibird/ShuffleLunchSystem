@@ -1,22 +1,27 @@
 <?php
 
-require_once(__DIR__ . '/core/Router.php');
-require_once(__DIR__ . '/core/HttpNotFoundException.php');
-require_once(__DIR__ . '/controller/ShuffleController.php');
-require_once(__DIR__ . '/controller/EmployeeController.php');
 class Application
 {
     private $router;
+    private $response;
+    private $request;
 
     public function __construct()
     {
         $this->router = new Router($this->registerRoutes());
+        $this->response = new Response();
+        $this->request = new Request();
     }
 
-    public function run()
+    public function getRequest(): Request
+    {
+        return $this->request;
+    }
+
+    public function run(): void
     {
         try {
-            $params = $this->router->resolve($this->getPathInfo());
+            $params = $this->router->resolve($this->request->getPathInfo());
             if (!$params) {
                 throw new HttpNotFoundException();
             }
@@ -26,16 +31,18 @@ class Application
         } catch (HttpNotFoundException) {
                 $this->render404Page();
         }
+        $this->response->send();
     }
 
-    public function runAction(string $controller, string $action)
+    public function runAction(string $controller, string $action): void
     {
         $controllerName = ucfirst($controller) . 'Controller';
         if (!class_exists($controllerName)) {
             throw new HttpNotFoundException();
         }
-        $controllerClass = new $controllerName();
-        $controllerClass->run($action);
+        $controllerClass = new $controllerName($this);
+        $content = $controllerClass->run($action);
+        $this->response->setContent($content);
     }
 
     public function registerRoutes(): array
@@ -48,15 +55,12 @@ class Application
         ];
     }
 
-    public function getPathInfo(): string
-    {
-        return $_SERVER['REQUEST_URI'];
-    }
-
     public function render404Page(): void
     {
-        $content = <<<EOF
-        <!DOCTYPE html>
+        $this->response->setStatusCode('404', 'Not Found');
+        $this->response->setContent(
+<<<EOF
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -75,7 +79,7 @@ class Application
 </body>
 
 </html>
-EOF;
-        echo $content;
+EOF
+        );
     }
 }

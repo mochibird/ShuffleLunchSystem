@@ -7,6 +7,7 @@
 //Colors
 $color-btn: #0000FF;
 $color-text: #333;
+$color-white: #FFF;
 
 
 //Margin
@@ -188,12 +189,19 @@ select {
   vertical-align: middle;
 }
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 html {
   font-size: 100%;
 }
 
 body {
   font-weight: normal;
+  font-family: 'Noto Sans JP', 'Roboto', sans-serif;
   letter-spacing: 0.03em;
   line-height: 1;
   color: $color-text;
@@ -205,12 +213,61 @@ li {
   list-style: none;
 }
 
+a {
+  text-decoration: none;
+  color: $color-text;
+}
+
+h1 {
+  margin-bottom: $base-space;
+  font-weight: bold;
+  @include font-size(32);
+}
+
 .container {
   margin: 0 auto;
-  padding: 0 30px;
+  padding: 70px 30px;
   max-width: 1200px;
 }
 
+.second-primary {
+  @include font-size(18);
+}
+
 .btn {
-  background-color: $color-btn;
+  font-weight: bold;
+  padding: 12px 26px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background: $color-btn;
+  color: $color-white;
+  @include font-size(16);
+  transition: background .5s;
+  will-change: background;
+
+  &:hover {
+    background: skyblue;
+
+  }
+}
+
+.group {
+  &_item {
+    margin-bottom: 16px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: solid 2px $color-btn;
+  }
+
+  &_title {
+    width: 100px;
+    @include font-size(17)
+  }
+}
+
+.employee_name{
+  display: inline-block;
+  margin-right: 8px;
+  @include font-size(14);
 }
