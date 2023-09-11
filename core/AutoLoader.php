@@ -17,7 +17,7 @@ class AutoLoader
     private function classLoad($className): void
     {
         foreach ($this->dirs as $dir) {
-            $file = $dir . '/' . $className;
+            $file = $dir . '/' . $className . '.php';
             if (is_readable($file)) {
                 require $file;
                 return;
