@@ -17,6 +17,10 @@ class ShuffleController extends Controller
 
     public function create(): string
     {
+        if (!$this->application->getRequest()->isPost()) {
+            throw new HttpNotFoundException();
+        }
+
         $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
         if ($mysqli->connect_error) {
             throw new RuntimeException('データベース接続エラー: ' . $mysqli->connect_error);

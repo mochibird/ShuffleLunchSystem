@@ -23,6 +23,10 @@ class EmployeeController extends Controller
 
     public function create(): string
     {
+        if (!$this->application->getRequest()->isPost()) {
+            throw new HttpNotFoundException();
+        }
+
         $errors = [];
         $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
         if ($mysqli->connect_error) {
@@ -40,6 +44,7 @@ class EmployeeController extends Controller
             }
             $stmt->execute();
             $stmt->close();
+            header('Location: /employee');
         }
 
         return $this->render([

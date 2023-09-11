@@ -6,7 +6,7 @@ class Response
     protected $statusCode;
     protected $statusText;
 
-    public function send()
+    public function send(): void
     {
         header('HTTP1.1/' . $this->statusCode . ' ' . $this->statusCode);
         echo $this->content;

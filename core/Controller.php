@@ -3,6 +3,12 @@
 class Controller
 {
     protected $actionName;
+    protected $application;
+    public function __construct($application)
+    {
+        $this->application = $application;
+    }
+
     public function run(string $action): string
     {
         $this->actionName = $action;
