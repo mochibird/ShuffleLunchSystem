@@ -11,7 +11,7 @@ class ShuffleController extends Controller
         $groups = [];
 
         return $this->render([
-            'groups' => $groups
+            'groups' => $groups,
         ]);
     }
 

@@ -4,11 +4,11 @@ class Employee extends DatabaseModel
 {
     public function fetchAllNames(): array
     {
-        return $this->fetchAll('SELECT name FROM employees');
+        return $this->fetchAll('SELECT emp_no, name FROM employees');
     }
 
-    public function insert($name): void
+    public function insert(array $params): void
     {
-        $this->execute('INSERT INTO employees (name) VALUES (?)', ['s', $name]);
+        $this->execute('INSERT INTO employees (emp_no, name) VALUES (?, ?)', ['is', $params['number'], $params['name']]);
     }
 }

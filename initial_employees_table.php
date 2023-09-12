@@ -15,6 +15,7 @@ function createTableSql($mysqli)
     $sql = <<<EOT
         CREATE TABLE employees(
             id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            emp_no INTEGER NOT NULL,
             name VARCHAR(50) NOT NULL,
             create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4

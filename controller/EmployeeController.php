@@ -27,9 +27,14 @@ class EmployeeController extends Controller
         $employee = $this->databaseManager->get('Employee');
         $employees = $employee->fetchAllNames();
 
-        $errors = $this->validateName($_POST['name']);
+        $params = [
+            'number' => (int)$_POST['number'],
+            'name' => $_POST['name'],
+        ];
+
+        $errors = $this->validateName($params['name']);
         if (!count($errors)) {
-            $employee->insert($_POST['name']);
+            $employee->insert($params);
         }
         return $this->render([
             'title' => '社員登録',
