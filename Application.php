@@ -5,17 +5,29 @@ class Application
     private $router;
     private $response;
     private $request;
-
+    private $databaseManager;
     public function __construct()
     {
         $this->router = new Router($this->registerRoutes());
         $this->response = new Response();
         $this->request = new Request();
+        $this->databaseManager = new DatabaseManager();
+        $this->databaseManager->connect([
+            'hostname' => 'db',
+            'username' => 'test_user',
+            'password' => 'pass',
+            'database' => 'test_database',
+        ]);
     }
 
     public function getRequest(): Request
     {
         return $this->request;
+    }
+
+    public function getDatabaseManager(): DatabaseManager
+    {
+        return $this->databaseManager;
     }
 
     public function run(): void
