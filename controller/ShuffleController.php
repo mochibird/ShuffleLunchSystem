@@ -17,17 +17,11 @@ class ShuffleController extends Controller
 
     public function create(): string
     {
-        if (!$this->application->getRequest()->isPost()) {
+        if (!$this->request->isPost()) {
             throw new HttpNotFoundException();
         }
 
-        $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
-        if ($mysqli->connect_error) {
-            throw new RuntimeException('データベース接続エラー: ' . $mysqli->connect_error);
-        }
-
-        $result = $mysqli->query('SELECT name FROM employees');
-        $employees = $result->fetch_all(MYSQLI_ASSOC);
+        $employees = $this->databaseManager->get('Employee')->fetchAllNames();
         $groups = [];
 
             shuffle($employees);
