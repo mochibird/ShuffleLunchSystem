@@ -30,7 +30,7 @@ class ShuffleController extends Controller
             } else {
                 $extra = array_pop($employees);
                 $groups = array_chunk($employees, 2);
-                array_push($extra, $groups);
+                array_push($extra, $groups[0]);
             }
 
         return $this->render([

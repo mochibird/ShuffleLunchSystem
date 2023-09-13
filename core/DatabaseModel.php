@@ -8,19 +8,33 @@ class DatabaseModel
         $this->mysqli = $mysqli;
     }
 
-    public function fetchAll($sql): array
+    protected function fetchAll($sql): array
     {
         $result = $this->mysqli->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function execute(string $sql, array $params): void
+    protected function execute(string $sql, string $types, array $params):void
     {
         $stmt = $this->mysqli->prepare($sql);
         if ($stmt) {
-            $stmt->bind_param(...$params);
+            $stmt->bind_param($types, ...$params);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            throw new MySqlException('プリペアドステートメントの作成に失敗しました: ' . $this->mysqli->error);
         }
-        $stmt->execute();
-        $stmt->close();
+    }
+
+    protected function update(string $sql, string $types, array $params): void
+    {
+        $stmt = $this->mysqli->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param($types, ...$params);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            throw new MySqlException('プリペアドステートメントの作成に失敗しました: ' . $this->mysqli->error);
+        }
     }
 }
