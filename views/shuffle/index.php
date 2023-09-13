@@ -12,7 +12,7 @@
             </div>
             <?php foreach ($group as $employee) : ?>
                 <div class="employee_name">
-                    <p><?php echo $employee['name']; ?></p>
+                    <p><?php echo Utils::escapeString($employee['name']); ?></p>
                 </div>
             <?php endforeach; ?>
         <?php endforeach; ?>

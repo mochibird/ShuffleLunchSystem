@@ -23,10 +23,10 @@
     <?php foreach ($employees as $employee) : ?>
         <li class="employee_item">
             <div>
-                <p>社員番号 : <?php echo $employee['emp_no']; ?></p>
+                <p>社員番号 : <?php echo Utils::escapeString($employee['emp_no']); ?></p>
             </div>
             <div class="employee_name">
-                <p>社員名 : <?php echo $employee['name']; ?></p>
+                <p>社員名 : <?php echo Utils::escapeString($employee['name']); ?></p>
             </div>
         </li>
     <?php endforeach; ?>
