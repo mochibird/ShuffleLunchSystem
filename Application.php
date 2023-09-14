@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/vendor/autoload.php');
+
 class Application
 {
     private $router;
@@ -8,15 +10,21 @@ class Application
     private $databaseManager;
     public function __construct()
     {
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/');
+        $dotenv->load();
+        $dbHost = $_ENV['DB_HOST'];
+        $dbUsername = $_ENV['DB_USERNAME'];
+        $dbPassword = $_ENV['DB_PASSWORD'];
+        $dbDatabase = $_ENV['DB_DATABASE'];
         $this->router = new Router($this->registerRoutes());
         $this->response = new Response();
         $this->request = new Request();
         $this->databaseManager = new DatabaseManager();
         $this->databaseManager->connect([
-            'hostname' => 'db',
-            'username' => 'test_user',
-            'password' => 'pass',
-            'database' => 'test_database',
+            'hostname' => $dbHost,
+            'username' => $dbUsername,
+            'password' => $dbPassword,
+            'database' => $dbDatabase,
         ]);
     }
 
