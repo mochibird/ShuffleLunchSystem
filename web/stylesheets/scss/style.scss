@@ -282,5 +282,6 @@ input {
   }
   &_item {
     margin-bottom: 8px;
+    @include font-size(17);
   }
 }

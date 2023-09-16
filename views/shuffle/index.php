@@ -17,5 +17,5 @@
                 </div>
             <?php endforeach; ?>
         <?php endforeach; ?>
-        </li>
+    </li>
 </ul>
