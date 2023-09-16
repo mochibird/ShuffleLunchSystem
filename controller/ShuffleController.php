@@ -34,8 +34,6 @@ class ShuffleController extends Controller
             }
 
         Token::validateToken();
-        unset($_SESSION['token']);
-
         return $this->render([
             'groups' => $groups,
             'employees' => $employees,
