@@ -105,6 +105,10 @@ h1 {
   font-size: 32px;
   font-size: 2rem;
 }
+input {
+  width: 100%;
+  padding: 2px 0;
+}
 .container {
   margin: 0 auto;
   padding: 70px 30px;
@@ -117,7 +121,7 @@ h1 {
 }
 .btn {
   font-weight: bold;
-  padding: 12px 26px;
+  padding: 12px 30px;
   margin-bottom: 18px;
   border-radius: 4px;
   border: none;
@@ -131,6 +135,12 @@ h1 {
 }
 .btn:hover {
   background: skyblue;
+}
+.group-form {
+  margin-bottom: 12px;
+}
+.group-label {
+  margin-bottom: 4px;
 }
 .group_item {
   margin-bottom: 16px;
@@ -149,4 +159,7 @@ h1 {
   margin-right: 8px;
   font-size: 15px;
   font-size: 0.9375rem;
+}
+.employee_item {
+  margin-bottom: 8px;
 }

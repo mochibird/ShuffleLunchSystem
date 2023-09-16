@@ -4,11 +4,10 @@ class ShuffleController extends Controller
 {
     public function index(): string
     {
-        $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
-        if ($mysqli->connect_error) {
-            throw new RuntimeException('データベース接続エラー: ' . $mysqli->connect_error);
-        }
+        session_start();
+
         $groups = [];
+        Token::createToken();
 
         return $this->render([
             'groups' => $groups,
@@ -17,6 +16,7 @@ class ShuffleController extends Controller
 
     public function create(): string
     {
+        session_start();
         if (!$this->request->isPost()) {
             throw new HttpNotFoundException();
         }
@@ -32,7 +32,7 @@ class ShuffleController extends Controller
                 $groups = array_chunk($employees, 2);
                 array_push($extra, $groups[0]);
             }
-
+        Token::validateToken();
         return $this->render([
             'groups' => $groups,
             'employees' => $employees,
