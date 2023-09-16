@@ -35,6 +35,7 @@ class EmployeeController extends Controller
         $errors = $this->validateEmployeeInsertData($params, $employees);
         if (!count($errors)) {
             $employee->insert($params);
+            unset($_SESSION['token']);
         }
         return $this->render([
             'title' => '社員登録',
@@ -78,6 +79,7 @@ class EmployeeController extends Controller
         $errors = $this->validateEmployeeUpdateData($params, $employees);
         if (!count($errors)) {
             $employee->updateName($params);
+            unset($_SESSION['token']);
         }
 
         return $this->render([

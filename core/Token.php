@@ -12,7 +12,7 @@ class Token
     public static function validateToken(): void
     {
         if (empty($_SESSION['token']) ||
-        $_SESSION['token'] !== filter_input(INPUT_POST, 'token')) {
+            $_SESSION['token'] !== filter_input(INPUT_POST, 'token')) {
             throw new HttpNotFoundException();
         }
     }

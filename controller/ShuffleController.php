@@ -32,7 +32,10 @@ class ShuffleController extends Controller
                 $groups = array_chunk($employees, 2);
                 array_push($extra, $groups[0]);
             }
+
         Token::validateToken();
+        unset($_SESSION['token']);
+
         return $this->render([
             'groups' => $groups,
             'employees' => $employees,
