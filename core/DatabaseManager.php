@@ -2,23 +2,29 @@
 
 class DatabaseManager
 {
-    protected $mysqli;
+    protected $pdo;
     protected $models;
 
     public function connect(array $params): void
     {
-        $mysqli = new mysqli($params['hostname'], $params['username'], $params['password'], $params['database']);
-        if ($mysqli->connect_error) {
-            throw new RuntimeException();
+        try {
+            $pdo = new PDO($params['dbSource'], $params['username'], $params['password'], [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ]);
+        } catch (PDOException $e) {
+            echo 'DBエラー: ' . $e->getMessage();
+            exit();
         }
 
-        $this->mysqli = $mysqli;
+        $this->pdo = $pdo;
     }
 
     public function get($modelName)
     {
         if (!isset($this->models[$modelName])) {
-            $model = new $modelName($this->mysqli);
+            $model = new $modelName($this->pdo);
             $this->models[$modelName] = $model;
         }
         return $this->models[$modelName];
@@ -26,6 +32,6 @@ class DatabaseManager
 
     public function __destruct()
     {
-        $this->mysqli->close();
+        $this->pdo = null;
     }
 }

@@ -16,6 +16,7 @@ class Application
         $dbUsername = $_ENV['DB_USERNAME'];
         $dbPassword = $_ENV['DB_PASSWORD'];
         $dbDatabase = $_ENV['DB_DATABASE'];
+        $dbSourceName = "mysql:host=$dbHost;dbname=$dbDatabase;charset=utf8mb4";
         $this->router = new Router($this->registerRoutes());
         $this->response = new Response();
         $this->request = new Request();
@@ -25,6 +26,7 @@ class Application
             'username' => $dbUsername,
             'password' => $dbPassword,
             'database' => $dbDatabase,
+            'dbSource' => $dbSourceName,
         ]);
     }
 

@@ -12,22 +12,27 @@ function dbConnect(): PDO
     $dbDatabase = $_ENV['DB_DATABASE'];
     $dbSourceName = "mysql:host=$dbHost;dbname=$dbDatabase;charset=utf8mb4";
     try {
-        $dbh = new PDO($dbSourceName, $dbUsername, $dbPassword, [
+        $pdo = new PDO($dbSourceName, $dbUsername, $dbPassword, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         ]);
     } catch (PDOException $e) {
         echo 'DBエラー: ' . $e->getMessage();
         exit();
     }
-    return $dbh;
+    return $pdo;
 }
 
-function dropTableSql(PDO $dbh)
+function dropTableSql(PDO $pdo): void
 {
-    $dbh->query('DROP TABLE IF EXISTS employees');
+    $stmt = $pdo->query('DROP TABLE IF EXISTS employees');
+    if ($stmt) {
+        echo 'テーブルの削除が完了しました。' . PHP_EOL;
+    } else {
+        echo 'テーブルの削除に失敗しました。' . PHP_EOL;
+    }
 }
 
-function createTableSql(PDO $dbh)
+function createTableSql(PDO $pdo): void
 {
     $sql = <<<EOT
         CREATE TABLE employees(
@@ -37,10 +42,15 @@ function createTableSql(PDO $dbh)
             create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4
 EOT;
-    $dbh->query($sql);
+    $stmt = $pdo->query($sql);
+    if ($stmt) {
+        echo 'テーブルの作成が完了しました。' . PHP_EOL;
+    } else {
+        echo 'テーブルの作成に失敗しました。' . PHP_EOL;
+    }
 }
 
-$dbh = dbConnect();
-dropTableSql($dbh);
-createTableSql($dbh);
-$dbh = null;
+$pdo = dbConnect();
+dropTableSql($pdo);
+createTableSql($pdo);
+$pdo = null;

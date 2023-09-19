@@ -9,11 +9,15 @@ class Employee extends DatabaseModel
 
     public function insert(array $params)
     {
-        $this->execute('INSERT INTO employees (emp_no, name) VALUES (?, ?)', 'is', [(int)$params['number'], $params['name']]);
+        $this->execute('INSERT INTO employees (emp_no, name) VALUES (:number, :name)', [
+            ':emp_no' => (int)$params['number'],
+            ':name' => $params['name']]);
     }
 
     public function updateName(array $params)
     {
-        $this->update('UPDATE employees SET name = ? WHERE emp_no = ?', 'si', [$params['name'], (int)$params['number']]);
+        $this->update('UPDATE employees SET name = :name WHERE emp_no = :number',  [
+            ':name' => $params['name'],
+            ':emp_no' => (int)$params['number']]);
     }
 }

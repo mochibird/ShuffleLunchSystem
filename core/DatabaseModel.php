@@ -2,39 +2,46 @@
 
 class DatabaseModel
 {
-    protected $mysqli;
-    public function __construct($mysqli)
+    protected $pdo;
+    public function __construct($pdo)
     {
-        $this->mysqli = $mysqli;
+        $this->pdo = $pdo;
     }
 
     protected function fetchAll($sql): array
     {
-        $result = $this->mysqli->query($sql);
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $result = $this->pdo->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    protected function execute(string $sql, string $types, array $params):void
+    protected function execute(string $sql,  array $params):void
     {
-        $stmt = $this->mysqli->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param($types, ...$params);
-            $stmt->execute();
-            $stmt->close();
-        } else {
-            throw new MySqlException('プリペアドステートメントの作成に失敗しました: ' . $this->mysqli->error);
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            if ($stmt) {
+                foreach ($params as $key => $value) {
+                    $stmt->bindValue(':' . $key, $value);
+                }
+                $stmt->execute();
+            } else {
+                throw new PDOException('プリペアドステートメントの作成に失敗しました。');
+            }
+        } catch (PDOException $e) {
+            echo 'エラー: ' . $e->getMessage();
         }
     }
 
-    protected function update(string $sql, string $types, array $params): void
+    protected function update(string $sql, array $params): void
     {
-        $stmt = $this->mysqli->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param($types, ...$params);
-            $stmt->execute();
-            $stmt->close();
-        } else {
-            throw new MySqlException('プリペアドステートメントの作成に失敗しました: ' . $this->mysqli->error);
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            if ($stmt) {
+                $stmt->execute($params);
+            } else {
+                throw new PDOException();
+            }
+        } catch (PDOException $e){
+            echo 'エラー: ' . $e->getMessage();
         }
     }
 }
