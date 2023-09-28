@@ -48,10 +48,6 @@ class Application
     {
         return $this->databaseManager;
     }
-    public function getDatabaseManager(): DatabaseManager
-    {
-        return $this->databaseManager;
-    }
 
     public function run(): void
     {
