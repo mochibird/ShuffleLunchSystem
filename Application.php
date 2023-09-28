@@ -33,7 +33,7 @@ class Application
     /**
      * 現在のオブジェクトからリクエストオブジェクトを取得します。
      *
-     * @return Request リクエストオブジェクト
+     * @return Request
      */
     public function getRequest(): Request
     {
