@@ -30,6 +30,11 @@ class Application
         ]);
     }
 
+    /**
+     * 現在のオブジェクトからリクエストオブジェクトを取得します。
+     *
+     * @return Request リクエストオブジェクト
+     */
     public function getRequest(): Request
     {
         return $this->request;
