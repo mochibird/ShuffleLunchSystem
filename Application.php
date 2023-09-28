@@ -65,15 +65,35 @@ class Application
         $this->response->send();
     }
 
-    public function runAction(string $controller, string $action): void
+    /**
+     * フレームワークのリクエスト処理を実行します。
+     *
+     * このメソッドは、リクエストを処理し、該当するコントローラーのアクションを呼び出します。
+     * リクエストが見つからない場合は 404 エラーページを表示します。
+     */
+    public function run(): void
     {
-        $controllerName = ucfirst($controller) . 'Controller';
-        if (!class_exists($controllerName)) {
-            throw new HttpNotFoundException();
+        try {
+            // リクエストのパス情報を解決し、該当するコントローラーとアクションを取得
+            $params = $this->router->resolve($this->request->getPathInfo());
+            
+            if (!$params) {
+                // パスが見つからない場合は HttpNotFoundException をスロー
+                throw new HttpNotFoundException();
+            }
+            
+            $controller = $params['controller'];
+            $action = $params['action'];
+            
+            // 対応するコントローラーのアクションを実行
+            $this->runAction($controller, $action);
+        } catch (HttpNotFoundException) {
+            // 404 エラーページを表示
+            $this->render404Page();
         }
-        $controllerClass = new $controllerName($this);
-        $content = $controllerClass->run($action);
-        $this->response->setContent($content);
+        
+        // レスポンスを送信
+        $this->response->send();
     }
 
     public function registerRoutes(): array
