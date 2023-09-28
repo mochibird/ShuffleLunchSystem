@@ -81,6 +81,13 @@ class Application
         $this->response->send();
     }
 
+    /**
+     * アプリケーションのルーティングを定義します。
+     *
+     * このメソッドは、URL パスとそれに対応するコントローラーとアクションのマッピングを提供します。
+     *
+     * @return array ルーティング定義の配列
+     */
     public function registerRoutes(): array
     {
         return [
