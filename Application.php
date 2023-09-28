@@ -39,7 +39,15 @@ class Application
     {
         return $this->request;
     }
-
+    /**
+     * このメソッドは、現在のオブジェクトからデータベースマネージャオブジェクトを取得します。
+     *
+     * @return DatabaseManager データベースマネージャオブジェクト
+     */
+    public function getDatabaseManager(): DatabaseManager
+    {
+        return $this->databaseManager;
+    }
     public function getDatabaseManager(): DatabaseManager
     {
         return $this->databaseManager;
