@@ -100,6 +100,12 @@ class Application
         ];
     }
 
+    /**
+     * 404 エラーページをレンダリングします。
+     *
+     * このメソッドは、HTTP 404 エラーが発生した際に表示されるエラーページを生成します。
+     * レスポンスオブジェクトにステータスコードとコンテンツを設定します。
+     */
     public function render404Page(): void
     {
         $this->response->setStatusCode('404', 'Not Found');
