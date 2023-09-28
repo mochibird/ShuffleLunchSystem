@@ -39,6 +39,7 @@ class Application
     {
         return $this->request;
     }
+    
     /**
      * このメソッドは、現在のオブジェクトからデータベースマネージャオブジェクトを取得します。
      *
@@ -48,23 +49,7 @@ class Application
     {
         return $this->databaseManager;
     }
-
-    public function run(): void
-    {
-        try {
-            $params = $this->router->resolve($this->request->getPathInfo());
-            if (!$params) {
-                throw new HttpNotFoundException();
-            }
-            $controller = $params['controller'];
-            $action = $params['action'];
-            $this->runAction($controller, $action);
-        } catch (HttpNotFoundException) {
-                $this->render404Page();
-        }
-        $this->response->send();
-    }
-
+    
     /**
      * フレームワークのリクエスト処理を実行します。
      *
